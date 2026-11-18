@@ -1,0 +1,14 @@
+﻿VSTest version 18.10.0 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+  Passed TestMacroMin [< 1 ms]
+  Passed TestMacroMax [< 1 ms]
+  Passed TestMacroSqr [< 1 ms]
+  Passed TestBranch1Calculation [< 1 ms]
+  Passed TestBranch2Calculation [< 1 ms]
+
+Test Run Successful.
+Total tests: 5
+     Passed: 5
+ Total time: 0,2767 Seconds

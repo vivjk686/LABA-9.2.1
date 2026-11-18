@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="LABA-9.2.1/LABA-9.2.1.vcxproj" Id="a9200001-78b8-55bb-bd56-e786907859bf" />
+  <Project Path="UnitTest9.2.1/UnitTest9.2.1.vcxproj" Id="b9200002-c24f-5e88-83ad-eb350cb9af59" />
+</Solution>
