@@ -88,13 +88,13 @@ doc_layout = {
     ]
 }
 
-content_ascii = json.dumps(doc_layout, indent=2, ensure_ascii=True)
+content_utf8 = json.dumps(doc_layout, indent=2, ensure_ascii=False)
 
 for d in vs_dirs:
     os.makedirs(d, exist_ok=True)
     fpath = os.path.join(d, "DocumentLayout.json")
-    with open(fpath, "w", encoding="ascii") as f:
-        f.write(content_ascii)
+    with open(fpath, "w", encoding="utf-8") as f:
+        f.write(content_utf8)
     print("Wrote valid DocumentLayout.json to:", fpath)
 
 # Also write to mirrors
@@ -102,7 +102,7 @@ for mirror_base in [r"D:\лаби\LABA-9.2.1", r"C:\Users\User\OneDrive\Desktop\
     for sub in ["LABA-9.2.1/v17", "LABA-9.2.1/v18", "LABA-9.2.1.slnx/v17", "LABA-9.2.1.slnx/v18"]:
         target_dir = os.path.join(mirror_base, ".vs", *sub.split("/"))
         os.makedirs(target_dir, exist_ok=True)
-        mirror_layout = json.loads(content_ascii)
+        mirror_layout = json.loads(content_utf8)
         mirror_layout["WorkspaceRootPath"] = mirror_base.replace("/", "\\") + "\\"
         for doc in mirror_layout["Documents"]:
             doc["AbsoluteMoniker"] = doc["AbsoluteMoniker"].replace(base_dir, mirror_base)
@@ -111,6 +111,6 @@ for mirror_base in [r"D:\лаби\LABA-9.2.1", r"C:\Users\User\OneDrive\Desktop\
                 child["DocumentMoniker"] = child["DocumentMoniker"].replace(base_dir, mirror_base)
                 child["ToolTip"] = child["ToolTip"].replace(base_dir, mirror_base)
         m_path = os.path.join(target_dir, "DocumentLayout.json")
-        with open(m_path, "w", encoding="ascii") as f:
-            json.dump(mirror_layout, f, indent=2, ensure_ascii=True)
+        with open(m_path, "w", encoding="utf-8") as f:
+            json.dump(mirror_layout, f, indent=2, ensure_ascii=False)
         print("Wrote mirror DocumentLayout.json to:", m_path)

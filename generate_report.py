@@ -277,7 +277,6 @@ using namespace std;
 // ============================================================================
 #define z 5
 
-#ifndef UNIT_TESTING
 int main()
 {
     cout << "Laboratorna robota No 9.2 (Chastyna 1, Variant 32)" << endl;
@@ -293,7 +292,7 @@ int main()
     PRINTI(y);
     PRINTI(z);
 
-#if (z >= 1 && z < 10)
+#if z >= 1 && z < 10
     // Гілка 1: w = min^2(x + y, x + z)
     cout << endl << "Hilka 1: w = min^2(x + y, x + z)" << endl;
     w = SQR(MIN(x + y, x + z));
@@ -306,8 +305,7 @@ int main()
     PRINTR(w);
 
     return 0;
-}
-#endif""")
+}""")
 
     # --- 5. МОДУЛЬНЕ ТЕСТУВАННЯ ---
     add_h(doc, "5. Модульне тестування (UnitTest9.2.1)", level=1)
