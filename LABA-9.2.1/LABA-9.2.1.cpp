@@ -5,8 +5,8 @@
 // Варіант 32
 //
 // Розрахунок виразу:
-// w = min(x + y, x + z) + z^2,     якщо 1 <= z < 10        (Гілка 1)
-// w = max(x^2, 5y) - z,            якщо z < 1 або z >= 10  (Гілка 2)
+// w = min^2(x + y, x + z),         якщо 1 <= z < 10        (Гілка 1)
+// w = max(x^2, 5|y - z|),          якщо z < 1 або z >= 10  (Гілка 2)
 //////////////////////////////////////////////////////////////////////////////
 #include <iostream>
 #include <cstdio>
@@ -17,78 +17,39 @@ using namespace std;
 
 // ============================================================================
 // ДИРЕКТИВА ПРЕПРОЦЕСОРА #define:
-// z — стала величина, значення якої визначає гілку компіляції:
-// ----------------------------------------------------------------------------
-// РЯДОК 23:
-//   Щоб скомпілювалася ГІЛКА 1: задайте z у межах від 1 до 9 (1 <= z < 10)
-//       #define z 5     (або 1, 2, 3, 4, ..., 9)
-//
-//   Щоб скомпілювалася ГІЛКА 2: задайте z < 1 або z >= 10
-//       #define z 5     (або будь-яке від'ємне число, чи >= 10, наприклад 12)
+// Стала величина z визначає гілку компіляції:
+//   Гілка 1 (1 <= z < 10):       #define z 5    (числа від 1 до 9)
+//   Гілка 2 (z < 1 або z >= 10): #define z 5    (числа < 1 або >= 10)
 // ============================================================================
-#define z 5  // <-- ОСЬ ТУТ МІНЯТИ ЗНАЧЕННЯ z!
+#define z 5
 
 #ifndef UNIT_TESTING
 int main()
 {
     cout << "Laboratorna robota No 9.2 (Chastyna 1, Variant 32)" << endl;
-    cout << "Vykorystannya makrosiv ta dyrektyv umovnoyi kompilyatsiyi" << endl << endl;
+    cout << "Stala z = " << z << endl << endl;
 
     double x, y, w;
 
-    cout << "Stala velychyna z = " << z << endl;
     cout << "Vvedit x: "; cin >> x;
     cout << "Vvedit y: "; cin >> y;
     cout << endl;
 
+    PRINTI(x);
+    PRINTI(y);
+    PRINTI(z);
+
 #if (z >= 1 && z < 10)
-    // ------------------------------------------------------------------------
-    // ГІЛКА 1: препроцесор компілює цей блок, якщо 1 <= z < 10
-    // w = min(x + y, x + z) + z^2
-    // ------------------------------------------------------------------------
-    cout << "[PREPROCESSOR] Kompilyuyetsya HILKA 1 (umova: 1 <= z < 10, bo z = " << z << ")" << endl;
-    cout << "Formula: w = min(x + y, x + z) + z^2" << endl << endl;
-
-    // Контрольний вивід аргументів через макрос PRINTI
-    PRINTI(x);
-    PRINTI(y);
-    PRINTI(z);
-
-    // Обчислення за формулою з використанням макросів MIN та SQR
-    double term1 = x + y;
-    double term2 = x + z;
-    double min_val = MIN(term1, term2);
-    double z_sqr = SQR(z);
-
-    w = min_val + z_sqr;
-
-    // Виведення результату через макрос PRINTR
-    PRINTR(w);
-
+    // Гілка 1: w = min^2(x + y, x + z)
+    cout << endl << "Hilka 1: w = min^2(x + y, x + z)" << endl;
+    w = SQR(MIN(x + y, x + z));
 #else
-    // ------------------------------------------------------------------------
-    // ГІЛКА 2: препроцесор компілює цей блок, якщо z < 1 або z >= 10
-    // w = max(x^2, 5*y) - z
-    // ------------------------------------------------------------------------
-    cout << "[PREPROCESSOR] Kompilyuyetsya HILKA 2 (umova: z < 1 abo z >= 10, bo z = " << z << ")" << endl;
-    cout << "Formula: w = max(x^2, 5*y) - z" << endl << endl;
+    // Гілка 2: w = max(x^2, 5|y - z|)
+    cout << endl << "Hilka 2: w = max(x^2, 5|y - z|)" << endl;
+    w = MAX(SQR(x), 5.0 * ABS(y - z));
+#endif
 
-    // Контрольний вивід аргументів через макрос PRINTI
-    PRINTI(x);
-    PRINTI(y);
-    PRINTI(z);
-
-    // Обчислення за формулою з використанням макросів MAX та SQR
-    double x_sqr = SQR(x);
-    double five_y = 5.0 * y;
-    double max_val = MAX(x_sqr, five_y);
-
-    w = max_val - z;
-
-    // Виведення результату через макрос PRINTR
     PRINTR(w);
-
-#endif // (z >= 1 && z < 10)
 
     return 0;
 }

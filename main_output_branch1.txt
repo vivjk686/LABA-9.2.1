@@ -1,16 +1,14 @@
 Laboratorna robota No 9.2 (Chastyna 1, Variant 32)
-Vykorystannya makrosiv ta dyrektyv umovnoyi kompilyatsiyi
+Stala z = 5
 
-Stala velychyna z = 5
 Vvedit x: Vvedit y: 
-[PREPROCESSOR] Kompilyuyetsya HILKA 1 (umova: 1 <= z < 10, bo z = 5)
-Formula: w = min(x + y, x + z) + z^2
-
 control output
 x = 2
 control output
 y = 3
 control output
 z = 5
+
+Hilka 1: w = min^2(x + y, x + z)
 rezult :
-w = 30.000000
+w = 25.000000

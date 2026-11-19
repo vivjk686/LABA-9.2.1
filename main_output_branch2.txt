@@ -1,16 +1,14 @@
 Laboratorna robota No 9.2 (Chastyna 1, Variant 32)
-Vykorystannya makrosiv ta dyrektyv umovnoyi kompilyatsiyi
+Stala z = 0
 
-Stala velychyna z = 0
 Vvedit x: Vvedit y: 
-[PREPROCESSOR] Kompilyuyetsya HILKA 2 (umova: z < 1 abo z >= 10, bo z = 0)
-Formula: w = max(x^2, 5*y) - z
-
 control output
 x = 4
 control output
 y = 2
 control output
 z = 0
+
+Hilka 2: w = max(x^2, 5|y - z|)
 rezult :
 w = 16.000000
