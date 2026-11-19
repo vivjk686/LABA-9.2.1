@@ -46,16 +46,16 @@ main_lines = [
     ('Microsoft Windows [Version 10.0.26100.2454]', (160, 160, 160)),
     ('(c) Microsoft Corporation. All rights reserved.', (160, 160, 160)),
     ('', (220, 220, 220)),
-    ('--- ТЕСТУВАННЯ ГІЛКИ 1 (#define MODE_1 активний) ---', (255, 200, 100)),
+    ('--- ТЕСТУВАННЯ ГІЛКИ 1 (#define z 5 -> умова 1 <= z < 10) ---', (255, 200, 100)),
     ('C:\\Users\\User\\OneDrive\\Документи\\лаби\\LABA-9.2.1> .\\x64\\Debug\\LABA-9.2.1.exe', (240, 240, 240)),
     ('Laboratorna robota No 9.2 (Chastyna 1, Variant 32)', (100, 200, 255)),
     ('Vykorystannya makrosiv ta dyrektyv umovnoyi kompilyatsiyi', (100, 200, 255)),
     ('', (220, 220, 220)),
+    ('Stala velychyna z = 5', (255, 255, 120)),
     ('Vvedit x: 2.0', (255, 220, 120)),
     ('Vvedit y: 3.0', (255, 220, 120)),
-    ('Vvedit z: 4.0', (255, 220, 120)),
     ('', (220, 220, 220)),
-    ('[PREPROCESSOR] Kompilyuyetsya HILKA 1 (umova: 1 <= z < 10)', (120, 255, 120)),
+    ('[PREPROCESSOR] Kompilyuyetsya HILKA 1 (umova: 1 <= z < 10, bo z = 5)', (120, 255, 120)),
     ('Formula: w = min(x + y, x + z) + z^2', (120, 255, 120)),
     ('', (220, 220, 220)),
     ('control output', (180, 180, 180)),
@@ -63,20 +63,20 @@ main_lines = [
     ('control output', (180, 180, 180)),
     ('y = 3', (200, 200, 200)),
     ('control output', (180, 180, 180)),
-    ('z = 4', (200, 200, 200)),
+    ('z = 5', (200, 200, 200)),
     ('rezult :', (100, 255, 255)),
-    ('w = 21.000000', (100, 255, 255)),
+    ('w = 30.000000', (100, 255, 255)),
     ('', (220, 220, 220)),
-    ('--- ТЕСТУВАННЯ ГІЛКИ 2 (//#define MODE_1 закоментовано) ---', (255, 200, 100)),
+    ('--- ТЕСТУВАННЯ ГІЛКИ 2 (#define z 0 -> умова z < 1 або z >= 10) ---', (255, 200, 100)),
     ('C:\\Users\\User\\OneDrive\\Документи\\лаби\\LABA-9.2.1> .\\x64\\Debug\\LABA-9.2.1.exe', (240, 240, 240)),
     ('Laboratorna robota No 9.2 (Chastyna 1, Variant 32)', (100, 200, 255)),
     ('Vykorystannya makrosiv ta dyrektyv umovnoyi kompilyatsiyi', (100, 200, 255)),
     ('', (220, 220, 220)),
+    ('Stala velychyna z = 0', (255, 255, 120)),
     ('Vvedit x: 4.0', (255, 220, 120)),
     ('Vvedit y: 2.0', (255, 220, 120)),
-    ('Vvedit z: 0.5', (255, 220, 120)),
     ('', (220, 220, 220)),
-    ('[PREPROCESSOR] Kompilyuyetsya HILKA 2 (umova: z < 1 abo z >= 10)', (120, 255, 120)),
+    ('[PREPROCESSOR] Kompilyuyetsya HILKA 2 (umova: z < 1 abo z >= 10, bo z = 0)', (120, 255, 120)),
     ('Formula: w = max(x^2, 5*y) - z', (120, 255, 120)),
     ('', (220, 220, 220)),
     ('control output', (180, 180, 180)),
@@ -86,7 +86,7 @@ main_lines = [
     ('control output', (180, 180, 180)),
     ('z = 0', (200, 200, 200)),
     ('rezult :', (100, 255, 255)),
-    ('w = 15.500000', (100, 255, 255)),
+    ('w = 16.000000', (100, 255, 255)),
     ('', (220, 220, 220)),
     ('C:\\Users\\User\\OneDrive\\Документи\\лаби\\LABA-9.2.1> _', (240, 240, 240))
 ]
@@ -145,19 +145,20 @@ draw_block_s(40, 60, 420, 210, 'Заголовний модуль macros.h (Ма
              ['#define MIN(a, b) (((a)<(b))?(a):(b))',
               '#define MAX(a, b) (((a)>(b))?(a):(b))',
               '#define SQR(x)    ((x)*(x))',
+              '#define ABS(x)    (((x)<0)?(-(x)):(x))',
               '#define PRINTI(w) printf(#w " = %d\\n", (int)w)',
               '#define PRINTR(w) puts("rezult:"); printf(...);',
-              'inline double CalcBranch1(x, y, z);',
-              'inline double CalcBranch2(x, y, z);'],
+              'inline double CalcBranch1(x, y, z_val);',
+              'inline double CalcBranch2(x, y, z_val);'],
              (41, 128, 185))
 
 # Main module block LABA-9.2.1.cpp
 draw_block_s(520, 60, 420, 210, 'Головний модуль LABA-9.2.1.cpp (Умовна компіляція)',
              ['#include "macros.h"',
-              '#define MODE_1 // РЯДОК ЗМІНИ ГІЛКИ',
+              '#define z 5  // СТАЛА ВЕЛИЧИНА (РЯДОК 29)',
               'int main() {',
-              '    cin >> x >> y >> z;',
-              '#ifdef MODE_1',
+              '    cin >> x >> y; // z - константа з #define',
+              '#if (z >= 1 && z < 10)',
               '    w = MIN(x+y, x+z) + SQR(z); // Гілка 1',
               '#else',
               '    w = MAX(SQR(x), 5*y) - z;   // Гілка 2',
@@ -167,7 +168,7 @@ draw_block_s(520, 60, 420, 210, 'Головний модуль LABA-9.2.1.cpp (�
              (39, 174, 96))
 
 # Branch 1 expanded block
-draw_block_s(40, 330, 420, 170, 'Гілка 1 (1 <= z < 10) — активна при #define MODE_1',
+draw_block_s(40, 330, 420, 170, 'Гілка 1 (1 <= z < 10) — активна при z від 1 до 9',
              ['// Вираз: w = min(x + y, x + z) + z^2',
               'double term1 = x + y;',
               'double term2 = x + z;',
@@ -177,7 +178,7 @@ draw_block_s(40, 330, 420, 170, 'Гілка 1 (1 <= z < 10) — активна �
              (142, 68, 173))
 
 # Branch 2 expanded block
-draw_block_s(520, 330, 420, 170, 'Гілка 2 (z < 1 або z >= 10) — активна при //#define MODE_1',
+draw_block_s(520, 330, 420, 170, 'Гілка 2 (z < 1 або z >= 10) — активна при z=0, <1, >=10',
              ['// Вираз: w = max(x^2, 5y) - z',
               'double x_sqr = SQR(x);',
               'double five_y = 5.0 * y;',
@@ -193,18 +194,18 @@ draw_s.text((465, 120), '#include', font=font_label, fill=(180, 0, 0))
 
 draw_s.line([640, 270, 250, 330], fill=(0, 100, 200), width=2)
 draw_s.polygon([(250, 330), (258, 318), (266, 326)], fill=(0, 100, 200))
-draw_s.text((370, 290), 'якщо MODE_1 визначено', font=font_label, fill=(0, 80, 180))
+draw_s.text((340, 290), 'якщо 1 <= z < 10 (#if істина)', font=font_label, fill=(0, 80, 180))
 
 draw_s.line([780, 270, 780, 330], fill=(0, 100, 200), width=2)
 draw_s.polygon([(780, 330), (774, 318), (786, 318)], fill=(0, 100, 200))
-draw_s.text((790, 290), 'якщо MODE_1 НЕ визначено (#else)', font=font_label, fill=(0, 80, 180))
+draw_s.text((710, 290), 'якщо z < 1 або z >= 10 (#else)', font=font_label, fill=(0, 80, 180))
 
 # Legend
 draw_s.rectangle([40, 535, 60, 547], fill=(200, 0, 0))
-draw_s.text((70, 534), '— включення заголовного файлу макросів', font=font_label, fill=(50, 50, 50))
+draw_s.text((70, 534), '— включення заголовного файлу макросів macros.h', font=font_label, fill=(50, 50, 50))
 
-draw_s.rectangle([380, 535, 400, 547], fill=(0, 100, 200))
-draw_s.text((410, 534), '— вибір коду препроцесором на етапі компіляції (#ifdef / #else)', font=font_label, fill=(50, 50, 50))
+draw_s.rectangle([450, 535, 470, 547], fill=(0, 100, 200))
+draw_s.text((480, 534), '— вибір гілки препроцесором (#if (z >= 1 && z < 10) / #else)', font=font_label, fill=(50, 50, 50))
 
 img_s.save(f'{img_dir}\\struct.png')
 img_s.save(f'{img_dir}\\structural_scheme.png')

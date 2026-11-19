@@ -23,10 +23,10 @@
 #define PRINTR(w) puts("rezult :"); printf(#w " = %f\n", (double)(w))
 
 // Допоміжні функції для модульного тестування формул обох гілок
-inline double CalcBranch1(double x, double y, double z) {
-    return MIN(x + y, x + z) + SQR(z);
+inline double CalcBranch1(double x, double y, double z_val) {
+    return MIN(x + y, x + z_val) + SQR(z_val);
 }
 
-inline double CalcBranch2(double x, double y, double z) {
-    return MAX(SQR(x), 5.0 * y) - z;
+inline double CalcBranch2(double x, double y, double z_val) {
+    return MAX(SQR(x), 5.0 * y) - z_val;
 }
